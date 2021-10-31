@@ -13,10 +13,10 @@
             android:name=".LandmarkActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SentimentAnalysis"
             android:exported="true" />
         <activity
-            android:name=".SentimentAnalysis"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"

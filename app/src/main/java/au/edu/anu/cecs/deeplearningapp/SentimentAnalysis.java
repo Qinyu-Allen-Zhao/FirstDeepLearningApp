@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SentimentAnalysis extends AppCompatActivity {
     private Button returnBut, analyzeBut;
@@ -42,13 +43,18 @@ public class SentimentAnalysis extends AppCompatActivity {
 
         // Call the method to download TFLite model
         downloadModel("SentimentAnalysis");
+        executorService = Executors.newSingleThreadExecutor();
 
         newComment = findViewById(R.id.new_comment);
         scrollView = findViewById(R.id.sa_scroll_view);
         resultText = findViewById(R.id.sa_result_text);
+        returnBut = findViewById(R.id.sa_return_button);
+        analyzeBut = findViewById(R.id.sa_analyze_button);
+        analyzeBut.setEnabled(false);
+        Toast.makeText(getApplicationContext(),
+                "Downloading the model...", Toast.LENGTH_LONG).show();
 
         // Return the main activity
-        returnBut = findViewById(R.id.sa_return_button);
         returnBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +64,6 @@ public class SentimentAnalysis extends AppCompatActivity {
         });
 
         // Analyze the current comment
-        analyzeBut = findViewById(R.id.sa_analyze_button);
         analyzeBut.setOnClickListener((View v) -> {
             classify(newComment.getText().toString());
         });
@@ -68,12 +73,16 @@ public class SentimentAnalysis extends AppCompatActivity {
      * Send input text to TextClassificationClient and get the classify messages.
      */
     private void classify(final String text) {
+        System.out.println(text);
+        System.out.println(textClassifier);
+        System.out.println(textClassifier == null);
         executorService.execute(
                 () -> {
                     // Run sentiment analysis on the input text
+                    System.out.println(textClassifier);
                     List<Category> results = textClassifier.classify(text);
 
-                    // TODO 8: Convert the result to a human-readable text
+                    // Convert the result to a human-readable text
                     String textToShow = "Input: " + text + "\nOutput:\n";
                     for (int i = 0; i < results.size(); i++) {
                         Category result = results.get(i);
@@ -95,7 +104,7 @@ public class SentimentAnalysis extends AppCompatActivity {
         runOnUiThread(
                 () -> {
                     // Append the result to the UI.
-                    newComment.append(textToShow);
+                    resultText.append(textToShow);
 
                     // Clear the input text.
                     newComment.getText().clear();
@@ -119,6 +128,8 @@ public class SentimentAnalysis extends AppCompatActivity {
                     public void onSuccess(CustomModel model) {
                         // Download complete. Depending on your app, you could enable the ML
                         // feature, or switch from the local model to the remote model, etc.
+                        Toast.makeText(getApplicationContext(),
+                                "Download successfully!", Toast.LENGTH_LONG).show();
 
                         // The CustomModel object contains the local path of the model file,
                         // which you can use to instantiate a TensorFlow Lite interpreter.
@@ -127,7 +138,7 @@ public class SentimentAnalysis extends AppCompatActivity {
                             // Initialize a TextClassifier with the downloaded model
                             try {
                                 textClassifier = NLClassifier.createFromFile(modelFile);
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
