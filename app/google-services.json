@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "225074808189",
+    "project_id": "first-deep-learning-app",
+    "storage_bucket": "first-deep-learning-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225074808189:android:9ccc35cf66c9a7943f7814",
+        "android_client_info": {
+          "package_name": "au.edu.anu.cecs.deeplearningapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225074808189-akgv99j5to6ggp9aun08dv6c09bdc2ig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2zIC74NZ-NDOmYot7inEFnQDD0WBylG8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225074808189-akgv99j5to6ggp9aun08dv6c09bdc2ig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

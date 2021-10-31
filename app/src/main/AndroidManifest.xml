@@ -10,10 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DeepLearningApp">
         <activity
-            android:name=".SentimentAnalysis"
+            android:name=".LandmarkActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SentimentAnalysis"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -18,10 +18,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_bookmark" />
+        app:layout_constraintTop_toBottomOf="@+id/title_rec_lm" />
 
     <TextView
-        android:id="@+id/title_bookmark"
+        android:id="@+id/title_rec_lm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -35,17 +35,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/analyze_button"
+        android:id="@+id/sa_analyze_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/analyze"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.738"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/return_button" />
+        app:layout_constraintTop_toTopOf="@+id/sa_return_button" />
 
     <Button
-        android:id="@+id/return_button"
+        android:id="@+id/sa_return_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -57,7 +57,7 @@
         tools:ignore="MissingConstraints" />
 
     <ScrollView
-        android:id="@+id/scroll_view"
+        android:id="@+id/sa_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
@@ -65,11 +65,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/return_button"
+        app:layout_constraintTop_toBottomOf="@+id/sa_return_button"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/result_text_view"
+            android:id="@+id/sa_result_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>

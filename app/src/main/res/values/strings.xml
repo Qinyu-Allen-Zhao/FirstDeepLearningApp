@@ -5,4 +5,10 @@
     <string name="re">Return</string>
     <string name="please_enter_your_comment">Please enter your comment.</string>
     <string name="sentiment_analysis">Sentiment Analysis</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="recognize_landmarks">Recognize Landmarks</string>
+    <string name="select_an_image">Select an image</string>
+    <string name="image_uri">Image URI</string>
 </resources>

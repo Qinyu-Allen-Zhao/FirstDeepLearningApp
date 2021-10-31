@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button senAna;
+    private Button senAna, landmark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SentimentAnalysis.class);
+                startActivity(intent);
+            }
+        });
+
+        landmark = findViewById(R.id.lr_button);
+        landmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, LandmarkActivity.class);
                 startActivity(intent);
             }
         });
