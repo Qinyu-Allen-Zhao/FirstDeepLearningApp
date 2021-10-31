@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DeepLearningApp</string>
+    <string name="welcome_to_easydl">Welcome to EasyDL</string>
+    <string name="analyze">Analyze</string>
+    <string name="re">Return</string>
+    <string name="please_enter_your_comment">Please enter your comment.</string>
+    <string name="sentiment_analysis">Sentiment Analysis</string>
 </resources>
