@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -35,7 +36,9 @@ public class LandmarkActivity extends AppCompatActivity {
     private Button returnBut, analyzeBut, selectBut;
     private TextView resultText, imgUri;
     private ScrollView scrollView;
+    private ImageView imageView;
     private FirebaseFunctions mFunctions;
+    private Bitmap bitmap;
     private Uri filePath;
 
     private final int PICK_IMAGE_REQUEST = 21;
@@ -47,6 +50,7 @@ public class LandmarkActivity extends AppCompatActivity {
 
         scrollView = findViewById(R.id.lr_scroll_view);
         resultText = findViewById(R.id.lr_result_text);
+        imageView = findViewById(R.id.uploaded_img);
 
         // Initialize an instance of Cloud Functions:
         mFunctions = FirebaseFunctions.getInstance();
@@ -76,7 +80,7 @@ public class LandmarkActivity extends AppCompatActivity {
         analyzeBut = findViewById(R.id.lr_analyze_button);
         analyzeBut.setOnClickListener((View v) -> {
             try {
-                recognize(filePath);
+                recognize();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -121,12 +125,21 @@ public class LandmarkActivity extends AppCompatActivity {
             // Get the Uri of data
             filePath = data.getData();
             imgUri.setText(filePath.toString());
+
+            try {
+                // Get the image as a Bitmap object
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void recognize(Uri uri) throws IOException {
-        // Get the image as a Bitmap object
-        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+    private void recognize() throws IOException {
+        if (bitmap == null) {
+            return;
+        }
         // Scale down bitmap size
         bitmap = scaleBitmapDown(bitmap, 640);
 
@@ -160,20 +173,35 @@ public class LandmarkActivity extends AppCompatActivity {
                         } else {
                             // Task completed successfully
                             Log.d("Recognize", "Success");
+                            StringBuilder result = new StringBuilder();
+
                             for (JsonElement label : task.getResult().getAsJsonArray().get(0).getAsJsonObject().get("landmarkAnnotations").getAsJsonArray()) {
                                 JsonObject labelObj = label.getAsJsonObject();
                                 String landmarkName = labelObj.get("description").getAsString();
                                 String entityId = labelObj.get("mid").getAsString();
                                 float score = labelObj.get("score").getAsFloat();
+
+                                result.append("Prediction ---\n")
+                                        .append("Description: " + landmarkName + "\n")
+                                        .append("Entity ID: " + entityId + "\n")
+                                        .append("Prediction Score: " + score + "\n");
+
                                 JsonObject bounds = labelObj.get("boundingPoly").getAsJsonObject();
                                 // Multiple locations are possible, e.g., the location of the depicted
                                 // landmark and the location the picture was taken.
-                                for (JsonElement loc : labelObj.get("locations").getAsJsonArray()) {
-                                    JsonObject latLng = loc.getAsJsonObject().get("latLng").getAsJsonObject();
-                                    double latitude = latLng.get("latitude").getAsDouble();
-                                    double longitude = latLng.get("longitude").getAsDouble();
-                                }
+                                JsonElement loc = labelObj.get("locations").getAsJsonArray().get(0);
+                                JsonObject latLng = loc.getAsJsonObject().get("latLng").getAsJsonObject();
+                                double latitude = latLng.get("latitude").getAsDouble();
+                                double longitude = latLng.get("longitude").getAsDouble();
+
+                                result.append("Latitude: " + latitude + "\n")
+                                        .append("Longitude: " + longitude + "\n");
+                                result.append("\n");
+                                // Only use the top prediction
+                                break;
                             }
+
+                            resultText.setText(result.toString());
                         }
                     }
                 });

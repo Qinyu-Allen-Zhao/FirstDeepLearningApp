@@ -73,13 +73,9 @@ public class SentimentAnalysis extends AppCompatActivity {
      * Send input text to TextClassificationClient and get the classify messages.
      */
     private void classify(final String text) {
-        System.out.println(text);
-        System.out.println(textClassifier);
-        System.out.println(textClassifier == null);
         executorService.execute(
                 () -> {
                     // Run sentiment analysis on the input text
-                    System.out.println(textClassifier);
                     List<Category> results = textClassifier.classify(text);
 
                     // Convert the result to a human-readable text
@@ -122,7 +118,7 @@ public class SentimentAnalysis extends AppCompatActivity {
                 .requireWifi()  // Also possible: .requireCharging() and .requireDeviceIdle()
                 .build();
         FirebaseModelDownloader.getInstance()
-                .getModel("SentimentAnalysis", DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND, conditions)
+                .getModel(modelName, DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND, conditions)
                 .addOnSuccessListener(new OnSuccessListener<CustomModel>() {
                     @Override
                     public void onSuccess(CustomModel model) {
